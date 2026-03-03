@@ -25,11 +25,29 @@ def create_task():
 @jwt_required()
 def viewTask():
     current_user_id= int(get_jwt_identity())
-    tasks = Task.query.filter_by(user_id = current_user_id).all()
+    page = request.args.get("page" , 1 , type=int)
+    sort = request.args.get("sort" , "desc")
+    completed = request.args.get("completed")
+  
+    tasks = Task.query.filter_by(user_id = current_user_id)
+    
+    if completed is not None:
+        completed = completed.lower()=="true"
+        tasks = tasks.filter_by(completed=completed)
+    if sort=="asc":
+        tasks = tasks.order_by(Task.created_at.asc())
+    if sort=="desc":
+        tasks = tasks.order_by(Task.created_at.desc())
+    if page:
+        tasks= tasks.paginate(page=page , per_page=5 , error_out =False)
+    if not tasks.items:
+        return jsonify({"message" : "Task does not exist"}) , 404
+    
     task_list=[]
-    for t in tasks:
-        task_list.append({ "id" : t.id , "title": t.title , "description" :t.description , "completed" : t.completed, "created_at" : t.created_at.isoformat() }) 
-    return jsonify(task_list)
+    for t in tasks.items:
+        task_list.append({ "id" : t.id , "title": t.title , "description" :t.description , "completed" : t.completed, "created_at" : t.created_at.isoformat() })
+    return jsonify({"tasks" : task_list , "total" : tasks.total , "pages" : tasks.pages , "current_page" : tasks.page}) , 200
+    
 
 @tasks.route("/tasks/<int:task_id>" , methods=['GET'])
 @jwt_required()
@@ -89,4 +107,3 @@ def delete_task(task_id):
 
 
 
-        
