@@ -11,7 +11,7 @@ def register():
     
     data = request.get_json()
     if not data :
-        return jsonify("message" : "Field can not be blank") , 400
+        return jsonify({"message" : "Field can not be blank"}) , 400
     email = data.get("email")
     username = data.get("username")
     password= data.get("password")
@@ -46,7 +46,7 @@ def login():
 
     data = request.get_json()
     if not data:
-        return ({"message" : "Field can not be empty"}) , 400
+        return jsonify({"message" : "Field can not be empty"}) , 400
     
     username = data.get("username")
     password =  data.get("password")
@@ -61,7 +61,7 @@ def login():
 
     if not user or not bcrypt.check_password_hash(user.password_hash , password):
         return jsonify({"message" : "Credentials not correct"}) , 401
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     return jsonify({"user_logged_in_as" : user.username , "mail_id" : user.email , "token" : access_token}) , 200
 
 @auth.route("/protected", methods=["GET"])
