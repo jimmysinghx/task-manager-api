@@ -14,6 +14,7 @@ def create_app():
     bcrypt.init_app(app)
     from app.models.user import User
     from app.routes.auth import auth
+    from app.models.task import Task
     app.register_blueprint(auth)
 
     return app
