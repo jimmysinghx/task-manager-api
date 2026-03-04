@@ -71,4 +71,4 @@ def protected():
     user = User.query.filter_by(id = current_user_id ).first()
     if not user:
         return jsonify({"message" : "User not found"}) , 404
-    return jsonify({"username" : user.username, "email" : user.email})
+    return jsonify({"username" : user.username, "email" : user.email}) , 200
