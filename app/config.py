@@ -1,4 +1,10 @@
 import os 
+from dotenv import load_dotenv
+
+if os.getenv("TESTING"):
+    load_dotenv(".env.test")
+else:
+    load_dotenv(".env")
 class Config :
     SECRET_KEY  = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
