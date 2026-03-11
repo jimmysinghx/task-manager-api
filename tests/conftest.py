@@ -4,6 +4,7 @@ import pytest
 from app import create_app
 from app.config import TestingConfig
 from app.extensions import db
+from tests.factories import UserFactory
 
 
 
@@ -28,3 +29,8 @@ def db_session(app):
         yield db.session
         db.session.rollback()
         db.session.remove()
+
+@pytest.fixture()
+def user_factory(db_session):
+    UserFactory._meta.sqlalchemy_session = db_session
+    return UserFactory
