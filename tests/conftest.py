@@ -4,7 +4,7 @@ import pytest
 from app import create_app
 from app.config import TestingConfig
 from app.extensions import db
-from tests.factories import UserFactory
+from tests.factories import UserFactory , TaskFactory
 
 
 
@@ -34,3 +34,8 @@ def db_session(app):
 def user_factory(db_session):
     UserFactory._meta.sqlalchemy_session = db_session
     return UserFactory
+
+@pytest.fixture()
+def task_factory(db_session):
+    TaskFactory._meta.sqlalchemy_session = db_session
+    return TaskFactory
