@@ -70,3 +70,52 @@ def test_register_user(client , user_factory):
     
     assert response.status_code == 201
     assert response.json == {"message" : "User has been created"}
+
+
+def test_login_empty_request(client):
+    response = client.post("/login" , json={})
+    assert response.status_code == 400
+    assert response.json == {"message" : "Field can not be empty"}
+
+def test_login_empty_username(client):
+    response = client.post("/login" , json={
+        "username" : "",
+        "password" : "password123"
+    })
+
+    assert response.status_code == 400 
+    assert response.json == {"message" : "username can not be blank"}
+
+def test_login_empty_password(client , user_factory):
+    user = user_factory.build()
+    response = client.post("/login" , json={
+        "username" : user.username ,
+        "password" : ""
+    })
+
+    assert response.status_code == 400
+    assert response.json == {"message" : "password can not be blank"}
+
+def test_login_credentials_check(client , user_factory):
+    user1 = user_factory.create()
+    user2 = user_factory.build()
+
+    response = client.post("/login" , json={
+        "username" : user2.username ,
+        "password" : "password123"
+    })
+
+    assert response.status_code == 401
+    assert response.json == {"message" : "Credentials not correct"}
+
+def test_login(client , user_factory) :
+    user = user_factory.create()
+    response = client.post("/login" , json={
+        "username" : user.username ,
+        "password" : "password123"
+    })
+
+    assert response.status_code == 200
+    assert "token" in response.json
+    assert {"user_logged_in_as" : response.json["user_logged_in_as"] , "mail_id" : response.json["mail_id"] , "token" : response.json["token"]}
+   
