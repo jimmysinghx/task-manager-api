@@ -8,9 +8,10 @@ tasks=Blueprint("tasks", __name__)
 @tasks.route("/tasks", methods=['POST'])
 @jwt_required()
 def create_task():
-    data = request.get_json()
+   
     if not request.is_json:
         return jsonify({"message" : "Content type must be aplication/json"}) , 415
+    data = request.get_json()
     title =data.get("title")
     description = data.get("description")
     if not title or not title.strip():
