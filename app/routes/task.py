@@ -10,7 +10,7 @@ tasks=Blueprint("tasks", __name__)
 def create_task():
     data = request.get_json()
     if not request.is_json:
-        return jsonify({"message" : "field can not be blank"}) , 400
+        return jsonify({"message" : "Content type must be aplication/json"}) , 415
     title =data.get("title")
     description = data.get("description")
     if not title or not title.strip():
@@ -63,7 +63,7 @@ def taskById(task_id):
 def update_task(task_id):
 
     if not request.is_json:
-        return jsonify({"message" : "Content type must be aplication/json"}) , 400
+        return jsonify({"message" : "Content type must be aplication/json"}) , 415
     
     data=request.get_json() 
 
