@@ -1,4 +1,3 @@
-from tests.factories import UserFactory
 from app.extensions import db
 def test_register_empty_request(client):
     response = client.post("/register" , json={})
