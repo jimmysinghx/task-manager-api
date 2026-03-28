@@ -118,7 +118,7 @@ body{
     outline:none;
     color:#1a1a1a;
     width:100%;
-    padding-right:4px;
+    padding-right:40px;
 }
 #auth-section{
     background-color:#ffffff;
@@ -225,7 +225,8 @@ body{
 }
 #show-button{
    position:absolute;
-   right:10px;
+    right:6px;
+    padding-left: 20px;
     background-color:transparent;
     color:#999;
     border-radius : 8px;
@@ -250,4 +251,8 @@ body{
 
 #add-auth-input::-webkit-credentials-auto-fill-button {
     visibility: hidden;
+}
+
+#message{
+    color: #8b0000;
 }

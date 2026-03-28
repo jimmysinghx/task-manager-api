@@ -8,12 +8,18 @@ const taskSection = document.getElementById("task-section")
 const showButton = document.getElementById("show-button")
 const showIcon = document.getElementById("show-icon")
 const authInput = document.getElementById("add-auth-input")
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NDcxNTUzMywianRpIjoiOTk0M2NmZDMtYzYxZS00MWM5LWIyNTYtYjFhYzIzZjgwOTJmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE3NzQ3MTU1MzMsImV4cCI6MTc3NDcxNjQzM30.6G4GBwS19jd0UE7ri7xD4K1rrEDjYZq81lNRlFy5WxQ"
+
 window.onload = function(){
     viewTasks()
 }
 
 addTaskButton.addEventListener("click" , function(){
+    const token = authInput.value?.trim()
+    if(!token.trim()){
+        message.textContent = "JWT Token required"
+        return
+    }
+    message.textContent = ""
     const taskTitle = input.value.trim()
     const taskData = { title : taskTitle}
     const taskDescription = description.value.trim()
@@ -49,7 +55,12 @@ addTaskButton.addEventListener("click" , function(){
 
 
 taskSection.addEventListener("click" , function(e){
-    
+    const token = authInput.value?.trim()
+    if(!token){
+        message.textContent = "JWT Token required"
+        return
+    }
+    message.textContent = ""
     if(e.target.classList.contains("delete-button")){
         const taskId= e.target.parentElement.dataset.id
         fetch(`http://127.0.0.1:5000/tasks/${taskId}` , {
@@ -74,7 +85,12 @@ taskSection.addEventListener("click" , function(e){
 })
 
 taskSection.addEventListener("change" , function(e){
-
+        const token = authInput.value?.trim()
+        if(!token.trim){
+            message.textContent = "JWT Token required"
+            return
+        }
+        message.textContent = ""
         if(e.target.classList.contains("check-box") ){
             const taskId = e.target.parentElement.dataset.id
             const checkBoolean = e.target.checked
@@ -106,6 +122,13 @@ taskSection.addEventListener("change" , function(e){
 
 
 function viewTasks(){
+    const token = authInput.value?.trim()
+    if(!token.trim){
+        message.textContent = "JWT Token required"
+        return
+    }
+     message.textContent = ""
+
     fetch("http://127.0.0.1:5000/tasks" , {
         method : "GET" ,
         "headers" : {
@@ -168,4 +191,13 @@ showButton.addEventListener("click" , ()=>{
     const isPassword = authInput.type === "password"
     authInput.type = isPassword ? "text" : "password"
     showIcon.className = isPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye"
+})
+authInput.addEventListener("input"  , ()=>{
+    const token = authInput.value?.trim() 
+    if(!token){
+        message.textContent =  "JWT Token required"
+        taskSection.style.display = "none" ;
+        return
+    } ;
+    taskSection.style = "block";
 })
