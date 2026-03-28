@@ -42,7 +42,7 @@ def viewTask():
     if page:
         tasks= tasks.paginate(page=page , per_page=5 , error_out =False)
     if not tasks.items:
-        return jsonify({"message" : "Task does not exist"}) , 404
+        return jsonify({"tasks" : [] , "total" : 0}) , 200
     
     task_list=[]
     for t in tasks.items:

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TASK MANAGER</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="container">
+            <div id="heading">
+                <h1 id ="app-title">TASK MANAGER</h1>
+                <p id="app-subtitle">Keep track of what matters</p>
+            </div>
+          
+            <section id="input-section">
+                <div id="input-card">
+                    <label id="new-task-label" for="add-task-input">NEW TASK </label>
+                    <input type="text" id="add-task-input" name="enter-task" placeholder="Title">
+        
+                    <textarea type="text" id="add-description" name="enter-description" placeholder="Description (optional)"></textarea>
+                    <button id="add-task-button">Add Task</button>
+                </div>
+            </section>
+
+            <section id="task-section">
+            
+                 <p id="active-label">ACTIVE TASKS</p>
+                <div id="task-list-container">
+                   
+                  
+                </div>
+
+                <p id="completed-label">COMPLETED TASKS</p>
+                <div id="task-completed-container">
+                   
+                   
+                </div>
+            </section>
+        </div>
+        
+    </body>
+   
+</html>
