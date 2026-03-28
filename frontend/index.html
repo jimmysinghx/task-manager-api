@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="style.css">
         <script src="script.js" defer></script>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body>
         <div id="container">
@@ -12,7 +13,22 @@
                 <h1 id ="app-title">TASK MANAGER</h1>
                 <p id="app-subtitle">Keep track of what matters</p>
             </div>
-          
+            <section id="auth-section">
+                <p id="auth-title">AUTHENTICATION</p>
+                <div id="auth-container">
+                    <span id="jwt-badge">JWT</span>
+                    <div id="auth-input-wrapper">
+                        <input type="password" id="add-auth-input" placeholder="Enter JWT Token">
+                        <button id="show-button"> 
+                            <i class="fa-regular fa-eye" id="show-icon"></i>
+                        </button>
+                    </div>
+                    
+                </div>
+                
+                <p id="auth-disclaimer">Bearer token used to authenticate your requests</p>
+
+            </section>
             <section id="input-section">
                 <div id="input-card">
                     <label id="new-task-label" for="add-task-input">NEW TASK </label>

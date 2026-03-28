@@ -5,8 +5,10 @@ const message = document.getElementById("message")
 const description = document.getElementById("add-description")
 const completedTaskContainer = document.getElementById("task-completed-container")
 const taskSection = document.getElementById("task-section")
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NDcxMzI3NiwianRpIjoiN2M2NDA1ZTgtMTZmOS00MDZhLWJkMTYtYTczNTgyOTA1ZThkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE3NzQ3MTMyNzYsImV4cCI6MTc3NDcxNDE3Nn0.126yMkpgM7rT-jkEdGE3YiSp-QoN1s425hvDj3cmndc"
-
+const showButton = document.getElementById("show-button")
+const showIcon = document.getElementById("show-icon")
+const authInput = document.getElementById("add-auth-input")
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NDcxNTUzMywianRpIjoiOTk0M2NmZDMtYzYxZS00MWM5LWIyNTYtYjFhYzIzZjgwOTJmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE3NzQ3MTU1MzMsImV4cCI6MTc3NDcxNjQzM30.6G4GBwS19jd0UE7ri7xD4K1rrEDjYZq81lNRlFy5WxQ"
 window.onload = function(){
     viewTasks()
 }
@@ -162,3 +164,8 @@ function viewTasks(){
     .catch(error => console.log("Error : " , error))
 }
 
+showButton.addEventListener("click" , ()=>{
+    const isPassword = authInput.type === "password"
+    authInput.type = isPassword ? "text" : "password"
+    showIcon.className = isPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye"
+})
