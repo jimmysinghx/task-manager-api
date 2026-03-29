@@ -35,7 +35,7 @@ addTaskButton.addEventListener("click" , function(){
     }
     if(taskTitle === "") return 
 
-    fetch("http://127.0.0.1:5000/tasks" , {
+    fetch("https://taskmanagerbackend-13uo.onrender.com/tasks" , {
         method : "POST", 
         headers : {
             "Authorization" : `Bearer ${token}`,
@@ -71,7 +71,7 @@ taskSection.addEventListener("click" , function(e){
     message.textContent = ""
     if(e.target.classList.contains("delete-button")){
         const taskId= e.target.parentElement.dataset.id
-        fetch(`http://127.0.0.1:5000/tasks/${taskId}` , {
+        fetch(`https://taskmanagerbackend-13uo.onrender.com/tasks/${taskId}` , {
             method : "DELETE" ,
             headers : {
             "Authorization" : `Bearer ${token}`
@@ -102,7 +102,7 @@ taskSection.addEventListener("change" , function(e){
         if(e.target.classList.contains("check-box") ){
             const taskId = e.target.parentElement.dataset.id
             const checkBoolean = e.target.checked
-            fetch(`http://127.0.0.1:5000/tasks/${taskId}` , {
+            fetch(`https://taskmanagerbackend-13uo.onrender.com/tasks/${taskId}` , {
                 method : "PATCH" , 
                 headers : {"Authorization" : `Bearer ${token}` , 
                             "Content-Type" : "application/json"
@@ -134,7 +134,7 @@ function viewTasks(){
     const token = authInput.value?.trim()
 
 
-    fetch("http://127.0.0.1:5000/tasks" , {
+    fetch("https://taskmanagerbackend-13uo.onrender.com/tasks" , {
         method : "GET" ,
         headers : {
             "Authorization" : `Bearer ${token}`
