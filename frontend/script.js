@@ -8,18 +8,25 @@ const taskSection = document.getElementById("task-section")
 const showButton = document.getElementById("show-button")
 const showIcon = document.getElementById("show-icon")
 const authInput = document.getElementById("add-auth-input")
+const loadTaskButton = document.getElementById("load-task-button")
 
-window.onload = function(){
-    viewTasks()
+
+function authError(response){
+    if(response.status===401){
+        message.textContent = "Unauthorized"
+        taskSection.style.display = "none"
+        return true
+    }
+    return false
 }
 
 addTaskButton.addEventListener("click" , function(){
     const token = authInput.value?.trim()
     if(!token){
-        message.textContent = "JWT Token required"
+      
         return
     }
-    message.textContent = ""
+    
     const taskTitle = input.value.trim()
     const taskData = { title : taskTitle}
     const taskDescription = description.value.trim()
@@ -38,7 +45,7 @@ addTaskButton.addEventListener("click" , function(){
         
     })
     .then(response=>{
-        if(!response.ok){
+        if(authError(response)){
             throw new Error("Failed to add task.")
         }
         return response.json()
@@ -47,6 +54,7 @@ addTaskButton.addEventListener("click" , function(){
         console.log(data)
         input.value = ""
         description.value = ""
+        message.textContent = ""
         viewTasks()
     })
    
@@ -57,7 +65,7 @@ addTaskButton.addEventListener("click" , function(){
 taskSection.addEventListener("click" , function(e){
     const token = authInput.value?.trim()
     if(!token){
-        message.textContent = "JWT Token required"
+        
         return
     }
     message.textContent = ""
@@ -65,12 +73,12 @@ taskSection.addEventListener("click" , function(e){
         const taskId= e.target.parentElement.dataset.id
         fetch(`http://127.0.0.1:5000/tasks/${taskId}` , {
             method : "DELETE" ,
-            "headers" : {
+            headers : {
             "Authorization" : `Bearer ${token}`
             }
         })
         .then(response=>{
-            if(!response.ok){
+            if(authError(response)){
                 throw new Error("Failed to delete task.")
             }
             viewTasks()
@@ -87,7 +95,7 @@ taskSection.addEventListener("click" , function(e){
 taskSection.addEventListener("change" , function(e){
         const token = authInput.value?.trim()
         if(!token){
-            message.textContent = "JWT Token required"
+          
             return
         }
         message.textContent = ""
@@ -102,15 +110,16 @@ taskSection.addEventListener("change" , function(e){
                 body : JSON.stringify({completed:checkBoolean})
             })
             .then(response=>{
-                if(!response.ok){
+                if(authError(response)){
                     throw new Error("Failed to update the task")
                 }
-                const container = e.target.checked ? completedTaskContainer : taskListContainer
-                container.appendChild(e.target.parentElement)
-                e.target.parentElement.classList.toggle("completed", e.target.checked)
+               
                 return response.json()
             })
             .then(data=>{
+                const container = e.target.checked ? completedTaskContainer : taskListContainer
+                container.appendChild(e.target.parentElement)
+                e.target.parentElement.classList.toggle("completed", e.target.checked)
                 console.log(data)
                
             })
@@ -123,11 +132,7 @@ taskSection.addEventListener("change" , function(e){
 
 function viewTasks(){
     const token = authInput.value?.trim()
-    if(!token){
-        message.textContent = "JWT Token required"
-        return
-    }
-     message.textContent = ""
+
 
     fetch("http://127.0.0.1:5000/tasks" , {
         method : "GET" ,
@@ -136,7 +141,7 @@ function viewTasks(){
         }
     })
     .then(response=>{
-        if(!response.ok){
+        if(authError(response)){
             throw new Error("Failed to view task.")
         }
         return response.json()
@@ -195,9 +200,21 @@ showButton.addEventListener("click" , ()=>{
 authInput.addEventListener("input"  , ()=>{
     const token = authInput.value?.trim() 
     if(!token){
-        message.textContent =  "JWT Token required"
+      
         taskSection.style.display = "none" ;
         return
-    } ;
-    taskSection.style = "block";
+    } 
+    message.textContent="";
+})
+
+loadTaskButton.addEventListener("click" , ()=>{
+    const token = authInput.value?.trim()
+    if(!token){
+        message.textContent = "Token Required"
+        taskSection.style.display="none"
+        return
+    }
+    taskSection.style.display="block"
+    message.textContent = ""
+    viewTasks()
 })

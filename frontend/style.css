@@ -26,7 +26,7 @@ body{
     padding:25px;
     gap:12px;
 }
-#add-task-button{
+#add-task-button , #load-task-button{
     align-self:flex-start;
     background-color:#2d6a4f;
     color:white;
@@ -264,4 +264,8 @@ body{
     letter-spacing:0.06em;
     color:#a09a94;
     margin-bottom:12px;
+}
+#load-task-button-container{
+    display:flex;
+    justify-content : center;
 }
