@@ -8,6 +8,35 @@ auth  = Blueprint("auth" , __name__)
 
 @auth.route("/register" , methods=["POST"])
 def register():
+
+    """
+    Register a new user
+    ---
+    tags:
+      - Auth
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+              description: User email
+            username:
+              type: string
+              description: User username
+            password:
+              type: string
+              description: User password
+    responses:
+      201:
+        description: User has been created
+      400:
+        description: Field can not be blank
+      409:
+        description: Username or email already exists
+    """
     
     data = request.get_json()
     if not data :
@@ -44,6 +73,32 @@ def register():
 @auth.route("/login" , methods=["POST"])
 def login():
 
+    """
+    Login and get JWT token
+    ---
+    tags:
+      - Auth
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          properties:
+            username:
+              type: string
+              description: User username
+            password:
+              type: string
+              description: User password
+    responses:
+      200:
+        description: Returns JWT token
+      400:
+        description: Field can not be blank
+      401:
+        description: Credentials not correct
+    """
+
     data = request.get_json()
     if not data:
         return jsonify({"message" : "Field can not be empty"}) , 400
@@ -67,6 +122,25 @@ def login():
 @auth.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():
+    """
+    Get current logged in user details
+    ---
+    tags:
+      - Auth
+    parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: Bearer <your_jwt_token>
+    responses:
+      200:
+        description: Returns username and email
+      401:
+        description: Unauthorized
+      404:
+        description: User not found
+    """
     current_user_id= get_jwt_identity()
     user = User.query.filter_by(id = current_user_id ).first()
     if not user:
