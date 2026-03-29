@@ -15,7 +15,7 @@ window.onload = function(){
 
 addTaskButton.addEventListener("click" , function(){
     const token = authInput.value?.trim()
-    if(!token.trim()){
+    if(!token){
         message.textContent = "JWT Token required"
         return
     }
@@ -30,7 +30,7 @@ addTaskButton.addEventListener("click" , function(){
 
     fetch("http://127.0.0.1:5000/tasks" , {
         method : "POST", 
-        "headers" : {
+        headers : {
             "Authorization" : `Bearer ${token}`,
             "Content-Type" : "application/json"
         },
@@ -86,7 +86,7 @@ taskSection.addEventListener("click" , function(e){
 
 taskSection.addEventListener("change" , function(e){
         const token = authInput.value?.trim()
-        if(!token.trim){
+        if(!token){
             message.textContent = "JWT Token required"
             return
         }
@@ -96,7 +96,7 @@ taskSection.addEventListener("change" , function(e){
             const checkBoolean = e.target.checked
             fetch(`http://127.0.0.1:5000/tasks/${taskId}` , {
                 method : "PATCH" , 
-                "headers" : {"Authorization" : `Bearer ${token}` , 
+                headers : {"Authorization" : `Bearer ${token}` , 
                             "Content-Type" : "application/json"
                 } ,
                 body : JSON.stringify({completed:checkBoolean})
@@ -123,7 +123,7 @@ taskSection.addEventListener("change" , function(e){
 
 function viewTasks(){
     const token = authInput.value?.trim()
-    if(!token.trim){
+    if(!token){
         message.textContent = "JWT Token required"
         return
     }
@@ -131,7 +131,7 @@ function viewTasks(){
 
     fetch("http://127.0.0.1:5000/tasks" , {
         method : "GET" ,
-        "headers" : {
+        headers : {
             "Authorization" : `Bearer ${token}`
         }
     })
