@@ -173,7 +173,7 @@ body{
     
 }
 
-#new-task-label , #active-label , #completed-label{
+#new-task-label , #active-label , #completed-label , #auth-title {
     font-family: 'DM Sans', sans-serif;;
     font-size: 0.75rem;
     font-weight:600;
@@ -255,4 +255,13 @@ body{
 
 #message{
     color: #8b0000;
+}
+
+#auth-disclaimer{
+    font-family: 'DM Sans', sans-serif;;
+    font-size: 0.7rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    color:#a09a94;
+    margin-bottom:12px;
 }
