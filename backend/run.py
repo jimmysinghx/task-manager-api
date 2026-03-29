@@ -21,7 +21,7 @@ def invalid_token_callback(reason):
 def expired_token_callback(jwt_header , jwt_payload):
     return {"message" : "Token expired"} , 401
 
-CORS(app)
+CORS(app, origins=["https://task-manager-api-rest-server.vercel.app"])
 
 
 
